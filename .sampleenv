@@ -1,5 +1,17 @@
+# Local database connection
 DBNAME=[database name]
 DBUSER=[user name for your database]
 DBPASSWORD=[user's database password]
-AUTHSECRET=[secret for JWT]
+
+# Remote database connection via ssh tunnel
+SSH_HOST=[SSH Host]
+SSH_USER=[SSH username]
+SSH_PASSWORD=[SSH password]
+
+PA_SERVICE=[database hostname]
+PA_DBNAME=[database name]
+PA_DBUSER=[database username]
+PA_DBPASSWORD=[databaseuser password]
+
+AUTHSECRET=[JWT secret]
 EXPIRESSECONDS=3000 

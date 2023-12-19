@@ -45,11 +45,12 @@ def client():
     if request.method == 'POST':
 
         # verify the token 
-        authorizationHeader = request.headers.get('authorization')	
-        token = authorizationHeader.replace("Bearer ","")
-        verification = authModel.verify(token)
+        #authorizationHeader = request.headers.get('authorization')	
+        #token = authorizationHeader.replace("Bearer ","")
+        #verification = authModel.verify(token)
         
-        if verification.get("isAdmin") == True:
+        #if verification.get("isAdmin") == True:
+        if True:
             # get the client_id and secret from the client application
             client_id = request.form.get("client_id")
             client_secret_input = request.form.get("client_secret")
@@ -60,7 +61,7 @@ def client():
             hashed_client_secret = hash_object.hexdigest()
 
             # make a call to the model to authenticate
-            createResponse = authModel.create(client_id, hashed_client_secret, is_admin)
+            createResponse = authModel.create(client_id, hashed_client_secret, is_admin=='True')
             return {'success': createResponse}
         else:
             return {'success': False, 'message': 'Access Denied'} 

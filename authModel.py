@@ -2,7 +2,7 @@ import os
 import json
 
 # pip install psycopg2
-import psycopg2
+import mysql.connector
 
 #pip install -U python-dotenv
 from dotenv import load_dotenv
@@ -24,9 +24,14 @@ EXPIRESSECONDS = os.getenv('EXPIRESSECONDS')
 def authenticate(clientId, clientSecret):
 
     conn = None
-    query = "select * from clients where \"ClientId\"='" + clientId + "' and \"ClientSecret\"='" + clientSecret + "'"
+    query = f"select * from clients where ClientId='{clientId}' and ClientSecret='{clientSecret}'"
     try:
-        conn = psycopg2.connect("dbname=" + DBNAME + " user=" + DBUSER +" password=" +DBPASSWORD)
+        conn = mysql.connector.connect(
+            host="localhost",
+            database=DBNAME,
+            user=DBUSER,
+            password=DBPASSWORD
+        )        
         cur = conn.cursor()
         cur.execute(query)
         rows = cur.fetchall()
@@ -45,7 +50,7 @@ def authenticate(clientId, clientSecret):
         else:
             return False
         
-    except (Exception, psycopg2.DatabaseError) as error:
+    except (Exception) as error:
         
         print(error)
         if conn is not None:
@@ -72,15 +77,20 @@ def verify(token):
 
 def create(clientId, clientSecret, isAdmin):
     conn = None
-    query = "insert into clients (\"ClientId\", \"ClientSecret\", \"IsAdmin\") values(%s,%s,%s)"
+    query = f"insert into clients (ClientId, ClientSecret, IsAdmin) values('{clientId}','{clientSecret}',{isAdmin})"
 
     try:
-        conn = psycopg2.connect("dbname=" + DBNAME + " user=" + DBUSER +" password=" +DBPASSWORD)
+        conn = mysql.connector.connect(
+            host="localhost",
+            database=DBNAME,
+            user=DBUSER,
+            password=DBPASSWORD
+        )        
         cur = conn.cursor()
-        cur.execute(query, (clientId ,clientSecret,isAdmin))
+        cur.execute(query)
         conn.commit()
         return True
-    except (Exception, psycopg2.DatabaseError) as error:
+    except (Exception) as error:
         print(error)
         if conn is not None:
             cur.close()
@@ -94,14 +104,19 @@ def create(clientId, clientSecret, isAdmin):
 
 def blacklist(token):
     conn = None
-    query = "insert into blacklist (\"token\") values(\'" + token +"\')"
+    query = "insert into blacklist (token) values(\'" + token +"\')"
     try:
-        conn = psycopg2.connect("dbname=" + DBNAME + " user=" + DBUSER +" password=" +DBPASSWORD)
+        conn = mysql.connector.connect(
+            host="localhost",
+            database=DBNAME,
+            user=DBUSER,
+            password=DBPASSWORD
+        )        
         cur = conn.cursor()
         cur.execute(query)
         conn.commit()
         return True
-    except (Exception, psycopg2.DatabaseError) as error:
+    except (Exception) as error:
         print(error)
         if conn is not None:
             cur.close()
@@ -118,7 +133,12 @@ def checkBlacklist(token):
     query = "select count(*) from blacklist where token=\'" + token + "\'"
     print(query)
     try:
-        conn = psycopg2.connect("dbname=" + DBNAME + " user=" + DBUSER +" password=" +DBPASSWORD)
+        conn = mysql.connector.connect(
+            host="localhost",
+            database=DBNAME,
+            user=DBUSER,
+            password=DBPASSWORD
+        )        
         cur = conn.cursor()
         cur.execute(query)
         result = cur.fetchone()
@@ -126,7 +146,7 @@ def checkBlacklist(token):
             return True
         else:
             return False
-    except (Exception, psycopg2.DatabaseError) as error:
+    except (Exception) as error:
         print(error)
         if conn is not None:
             cur.close()

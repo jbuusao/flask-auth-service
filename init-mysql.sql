@@ -1,0 +1,16 @@
+CREATE DATABASE authdb_dev;
+USE authdb_dev
+
+DROP TABLE CLIENTS;
+CREATE TABLE clients (
+	Id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    ClientId CHAR(30) NOT NULL,
+    ClientSecret TEXT(256) NOT NULL,
+    IsAdmin BOOLEAN NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE blacklist
+(
+    token TEXT(256) NOT NULL
+);

@@ -1,3 +1,19 @@
+https://github.com/jbuusao/flask-auth-service
+https://10015.io/tools/jwt-encoder-decoder
+
+
+```
+curl -d 'client_id=value1&client_secret=value2&is_admin=True' -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost:5000/client
+
+curl -d 'client_id=value1&client_secret=value2&is_admin=True' -H "Content-Type: application/x-www-form-urlencoded" -X DELETE http://localhost:5000/client
+
+curl -d 'client_id=value1&client_secret=value2&is_admin=True' -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost:5000/auth
+
+curl -H 'authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY2xpZW50SWQiOiJ2YWx1ZTEiLCJpc0FkbWluIjoxLCJleHAiOjE3MDI5OTI2Mzh9.DpoBNHeQ3xek2Tn0fmyIBlVOufT8R2Aj2OfmOgCpYSc' -X POST http://localhost:5000/verify
+
+
+```
+
 ## Synopsis
 
 In this article we're going to learn how to build an OAuth service that can be used as a way to authenticate calls to an API or within a microservices architecture.  In this project we will be using Python, Flask, Postgres and JWT
